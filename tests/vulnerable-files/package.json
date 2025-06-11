@@ -1,0 +1,24 @@
+{
+  "name": "vulnerable-test-app",
+  "version": "1.0.0",
+  "description": "Application de test avec vulnérabilités intentionnelles",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "express": "4.16.0",
+    "lodash": "4.17.4",
+    "moment": "2.19.3",
+    "request": "2.88.0",
+    "handlebars": "4.0.12",
+    "jquery": "3.3.1",
+    "bootstrap": "3.3.7",
+    "axios": "0.18.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

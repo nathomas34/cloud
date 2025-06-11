@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vulnerable-app
+  labels:
+    app: vulnerable-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vulnerable-app
+  template:
+    metadata:
+      labels:
+        app: vulnerable-app
+    spec:
+      containers:
+      - name: app
+        image: nginx:latest  # Vulnérabilité: Tag latest
+        ports:
+        - containerPort: 80
+        
+        # Vulnérabilité: Conteneur privilégié
+        securityContext:
+          privileged: true
+          runAsUser: 0  # Vulnérabilité: Exécution en tant que root
+          allowPrivilegeEscalation: true
+          readOnlyRootFilesystem: false
+          
+        # Vulnérabilité: Pas de limites de ressources
+        # resources:
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "500m"
+        #   requests:
+        #     memory: "64Mi"
+        #     cpu: "250m"
+            
+        env:
+        - name: DATABASE_PASSWORD
+          value: "hardcoded-password"  # Vulnérabilité: Secret en dur
+        - name: API_KEY
+          value: "sk-1234567890abcdef"  # Vulnérabilité: Clé API exposée
+          
+        # Vulnérabilité: Montage de volumes sensibles
+        volumeMounts:
+        - name: host-root
+          mountPath: /host
+          
+      # Vulnérabilité: Pas de NetworkPolicy restrictive
+      # Vulnérabilité: Pas de PodSecurityPolicy
+      
+      volumes:
+      - name: host-root
+        hostPath:
+          path: /  # Vulnérabilité: Montage du système de fichiers hôte
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vulnerable-app-service
+spec:
+  selector:
+    app: vulnerable-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  # Vulnérabilité: Service exposé publiquement
+  type: LoadBalancer
