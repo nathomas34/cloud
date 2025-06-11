@@ -9,7 +9,7 @@ PROJECT_NAME = devsecops
 help: ## Afficher l'aide
 	@echo "🛡️ Environnement DevSecOps - Commandes disponibles:"
 	@echo ""
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$\' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 build: ## Construire toutes les images Docker
 	@echo "🔨 Construction des images Docker..."
@@ -81,9 +81,9 @@ security-scan: ## Lancer un scan de sécurité complet
 setup-sonar: ## Configurer SonarQube avec un projet de test
 	@echo "🔧 Configuration de SonarQube..."
 	@sleep 5
-	@curl -s -u admin:admin -X POST "http://localhost:9000/api/projects/create" \
-		-d "name=Security Test Project" \
-		-d "project=security-test-project" \
+	@curl -s -u admin:admin -X POST "http://localhost:9000/api/projects/create\" \
+		-d "name=Security Test Project\" \
+		-d "project=security-test-project\" \
 		-d "visibility=public" || echo "Projet déjà existant"
 	@echo "✅ SonarQube configuré"
 
