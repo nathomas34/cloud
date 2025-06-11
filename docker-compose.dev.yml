@@ -1,0 +1,26 @@
+# Configuration pour le développement
+version: '3.8'
+
+services:
+  devsecops-app:
+    build:
+      target: builder
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "5173:5173"  # Port Vite dev server
+
+  # Service de développement avec hot reload pour les tests
+  dev-scanner:
+    extends:
+      service: security-scanner
+    volumes:
+      - .:/workspace
+      - ./test-results:/workspace/test-results
+    environment:
+      - NODE_ENV=development
+      - WATCH_MODE=true

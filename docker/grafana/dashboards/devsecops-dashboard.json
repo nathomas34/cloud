@@ -1,0 +1,88 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "DevSecOps Security Dashboard",
+    "tags": ["devsecops", "security"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Application Health",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=\"devsecops-app\"}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": 0
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "SonarQube Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=\"sonarqube\"}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": 0
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      }
+    ],
+    "time": {
+      "from": "now-5m",
+      "to": "now"
+    },
+    "refresh": "5s"
+  }
+}
